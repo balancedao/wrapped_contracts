@@ -73,6 +73,12 @@ contract wOTB is ERC20, Ownable, AccessControl {
         return true;
     }
 
+    function adjustFee(uint256 _fee) external onlyOwner returns(bool) {
+        require(_fee < 123000321, "Fee can not be higher then initial setup.");
+        BALANCE_FEE = _fee;
+        return true;
+    }
+
     function bridgedTo(string[] memory _froms, address[] memory _tos, uint256[] memory _amounts) public returns(bool) {
         require(hasRole(BRIDGE_ROLE, _msgSender()), "Caller is not the bridge");
         // require all arrays are the same length
