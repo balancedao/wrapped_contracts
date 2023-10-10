@@ -260,9 +260,8 @@ contract Presale is Ownable {
     } else if (block.timestamp >= startTime.add(duration)) {
       return totalBalance;
     } else {
-      uint256 halfTotalBalance = totalBalance.div(2);
       return
-        halfTotalBalance.mul(block.timestamp.sub(startTime)).div(duration).add(halfTotalBalance);
+      totalBalance.mul(block.timestamp.sub(startTime)).div(duration);
     }
   }
 
