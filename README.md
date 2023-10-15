@@ -5,8 +5,8 @@
 ### Discord: https://discord.gg/PgPkJPqXGG
 ### Medium: https://balancedao.medium.com/
 
-### ERC20 Token wOTB
-This smart contract is an ERC20 token that wraps the native OTB token used as the native token for the Balance AI protocol blockchain. It has the following features:
+### ERC20 Token wBAI
+This smart contract is an ERC20 token that wraps the native BAI token used as the native token for the Balance AI protocol blockchain. It has the following features:
 
 * It is a fungible token, meaning that all tokens are identical and interchangeable.
 * Contract has the bridge functionality built in
