@@ -63,7 +63,7 @@ contract Presale is Ownable {
   /**
    * @notice Bootstraps the presale contract 
    * @param _duration duration in seconds of the period in which the tokens will vest
-   * @param _otbAddress address of dpx erc20 token
+   * @param _otbAddress address of wBAI erc20 token
    * @param _stableAddress addres of usd stable
    */
   function bootstrap(
