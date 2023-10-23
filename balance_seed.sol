@@ -105,6 +105,8 @@ contract Presale is Ownable {
     require(_startTime >= block.timestamp, 'Start time cannot be before current time');
     startTime = _startTime;
 
+    emit Start(_startTime);
+
     return true;
   }
 
@@ -287,4 +289,6 @@ contract Presale is Ownable {
   event WithdrawUsd(uint256 amount);
 
   event Bootstrap(uint256 totalOTBRequired);
+
+  event Start(uint256 timestamp);
 }
