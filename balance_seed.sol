@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import {IERC20} from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
@@ -21,6 +21,9 @@ contract Presale is Ownable {
     uint256 released; // the amount of WOTB released to the beneficiary
     bool usdTransferred; // whether the beneficiary has transferred the eth into the contract
   }
+
+  // All vested tokens in the contract
+  uint256 public allVestedAmount;
 
   // The mapping of vested beneficiary (beneficiary address => Vest)
   mapping(address => Vest) public vestedBeneficiaries;
@@ -84,7 +87,7 @@ contract Presale is Ownable {
 
     require(totalOTBRequired > 0, 'Total OTB required cannot be 0');
 
-    wotb.safeTransferFrom(msg.sender, address(this), totalOTBRequired);
+    wotb.safeTransferFrom(msg.sender, address(this), totalOTBRequired*10**9); 
 
     bootstrapped = true;
 
@@ -119,6 +122,8 @@ contract Presale is Ownable {
     beneficiaries.push(_beneficiary);
 
     vestedBeneficiaries[_beneficiary].amount = _amount;
+
+    allVestedAmount = allVestedAmount + _amount;
 
     noOfBeneficiaries = noOfBeneficiaries.add(1);
 
@@ -193,14 +198,14 @@ contract Presale is Ownable {
   /**
    * @notice Transfers usd from beneficiary to the contract.
    */
-  function transferUsd(uint256 usdAmount) external  {
+  function transferUsd() external  {
     require(
       !vestedBeneficiaries[msg.sender].usdTransferred,
       'Beneficiary has already transferred USD'
     );
     require(vestedBeneficiaries[msg.sender].amount > 0, 'Sender is not a beneficiary');
 
-    usdAmount = vestedBeneficiaries[msg.sender].amount.mul(otbPrice);
+    uint256 usdAmount = vestedBeneficiaries[msg.sender].amount.mul(otbPrice);
 
     usd.safeTransferFrom(msg.sender, address(this), usdAmount);
 
@@ -226,7 +231,7 @@ contract Presale is Ownable {
       unreleased
     );
 
-    wotb.transfer(msg.sender, unreleased);
+    wotb.transfer(msg.sender, unreleased*10**9); // transfer with 9 decimal as wOTB
 
     emit TokensReleased(msg.sender, unreleased);
   }
@@ -260,6 +265,7 @@ contract Presale is Ownable {
     } else if (block.timestamp >= startTime.add(duration)) {
       return totalBalance;
     } else {
+      
       return
       totalBalance.mul(block.timestamp.sub(startTime)).div(duration);
     }
