@@ -30,7 +30,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 // Uncomment this line to use console.log
 // import "hardhat/console.sol";
 
-contract wOTB is ERC20, Ownable, AccessControl {
+contract wBAI is ERC20, Ownable, AccessControl {
     using SafeMath for uint256;
 
     bytes32 public constant BRIDGE_ROLE = keccak256("BRIDGE_ROLE");
@@ -50,11 +50,11 @@ contract wOTB is ERC20, Ownable, AccessControl {
     event BridgeSet(address indexed bridge);
     
 
-    constructor() ERC20("Wrapped Balance AI", "wOTB") {
+    constructor() ERC20("Wrapped Balance AI", "wBAI") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
 
         // FOR TESTS
-        _mint(msg.sender, 10000000000000 * decimals()); 
+        _mint(msg.sender, 1000000 * 10**decimals()); 
 
         // FOR TESTS
     }
