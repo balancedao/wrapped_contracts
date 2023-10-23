@@ -76,7 +76,7 @@ contract Presale is Ownable {
     
     duration = _duration;
 
-    wotb = wOTB(_otbAddress);
+    wotb = wBAI(_otbAddress);
     usd = IERC20(_stableAddress);
 
     uint256 totalOTBRequired;
