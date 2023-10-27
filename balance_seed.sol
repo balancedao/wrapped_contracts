@@ -12,7 +12,7 @@ contract Presale is Ownable {
   using SafeERC20 for IERC20;
 
   // ERC20 tokens
-  IERC20 public wotb;
+  IERC20 public wbai;
   IERC20 public usd;
 
   // Structure of each vest
@@ -76,7 +76,7 @@ contract Presale is Ownable {
     
     duration = _duration;
 
-    wotb = wBAI(_otbAddress);
+    wbai = wBAI(_otbAddress);
     usd = IERC20(_stableAddress);
 
     uint256 totalOTBRequired;
@@ -87,7 +87,7 @@ contract Presale is Ownable {
 
     require(totalOTBRequired > 0, 'Total OTB required cannot be 0');
 
-    wotb.safeTransferFrom(msg.sender, address(this), totalOTBRequired*10**9); 
+    wbai.safeTransferFrom(msg.sender, address(this), totalOTBRequired*10**9); 
 
     bootstrapped = true;
 
@@ -233,7 +233,7 @@ contract Presale is Ownable {
       unreleased
     );
 
-    wotb.transfer(msg.sender, unreleased*10**9); // transfer with 9 decimal as wOTB
+    wbai.transfer(msg.sender, unreleased*10**9); // transfer with 9 decimal as wOTB
 
     emit TokensReleased(msg.sender, unreleased);
   }
