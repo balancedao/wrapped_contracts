@@ -5,7 +5,7 @@ import {IERC20} from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import {Ownable} from '@openzeppelin/contracts/access/Ownable.sol';
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "./WOTB.sol";
+import "./wBAI.sol";
 
 contract Presale is Ownable {
   using SafeMath for uint256;
@@ -272,6 +272,7 @@ contract Presale is Ownable {
       totalBalance.sub(imidiateBalance).mul(block.timestamp.sub(startTime)).div(duration).add(imidiateBalance);
     }
   }
+
 
 
   /*---- EVENTS ----*/
