@@ -48,6 +48,7 @@ contract wBAI is ERC20, Ownable, AccessControl {
     event BridgedTo(string from, address indexed to, uint256 amount, uint256 nonce);
     event BridgedBack(address indexed from, uint256 amount, string to, uint256 nonce);
     event BridgeSet(address indexed bridge);
+    event BridgeBackEnabled();
     
 
     constructor() ERC20("Wrapped Balance AI", "wBAI") {
@@ -60,11 +61,13 @@ contract wBAI is ERC20, Ownable, AccessControl {
 
     function setBridge(address _bridge) external onlyOwner returns(bool) {
         _setupRole(BRIDGE_ROLE, _bridge);
+        emit BridgeSet(_bridge);
         return true;
     }
 
     function enableBridgeBack() external onlyOwner returns(bool) {
         bridge_back_active = true;
+        emit BridgeBackEnabled();
         return true;
     }
 
