@@ -71,6 +71,7 @@ contract Presale is Ownable {
     address _otbAddress, 
     address _stableAddress
   ) external onlyOwner returns (bool) {
+    require(!bootstrapped, 'Already bootstrapped');
     require(_otbAddress != address(0), 'OTB address is 0');
     require(_duration > 0, 'Duration passed cannot be 0');
     
