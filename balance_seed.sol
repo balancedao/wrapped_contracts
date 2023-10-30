@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IERC20} from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import {IERC20} from '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import {Ownable} from '@openzeppelin/contracts/access/Ownable.sol';
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -9,11 +9,11 @@ import "./wBAI.sol";
 
 contract Presale is Ownable {
   using SafeMath for uint256;
-  using SafeERC20 for IERC20;
+  using SafeERC20 for ERC20;
 
   // ERC20 tokens
-  IERC20 public wbai;
-  IERC20 public usd;
+  ERC20 public wbai;
+  ERC20 public usd;
 
   // Structure of each vest
   struct Vest {
@@ -41,7 +41,7 @@ contract Presale is Ownable {
   bool public bootstrapped;
 
   // Start time of the the vesting
-  uint256 public startTime;
+  uint256 public startTime = 0;
 
   // The duration of the vesting
   uint256 public duration;
@@ -77,7 +77,7 @@ contract Presale is Ownable {
     duration = _duration;
 
     wbai = wBAI(_otbAddress);
-    usd = IERC20(_stableAddress);
+    usd = ERC20(_stableAddress);
 
     uint256 totalOTBRequired;
 
@@ -87,7 +87,7 @@ contract Presale is Ownable {
 
     require(totalOTBRequired > 0, 'Total OTB required cannot be 0');
 
-    wbai.safeTransferFrom(msg.sender, address(this), totalOTBRequired*10**9); 
+    wbai.safeTransferFrom(msg.sender, address(this), totalOTBRequired*10**wbai.decimals()); 
 
     bootstrapped = true;
 
@@ -102,6 +102,7 @@ contract Presale is Ownable {
   */
 
   function setStartTime(uint256 _startTime) public onlyOwner returns (bool) {
+    require(startTime == 0, "Start time already set.");
     require(_startTime >= block.timestamp, 'Start time cannot be before current time');
     startTime = _startTime;
 
@@ -233,7 +234,7 @@ contract Presale is Ownable {
       unreleased
     );
 
-    wbai.transfer(msg.sender, unreleased*10**9); // transfer with 9 decimal as wOTB
+    wbai.transfer(msg.sender, unreleased*10**wbai.decimals()); 
 
     emit TokensReleased(msg.sender, unreleased);
   }
