@@ -37,7 +37,7 @@ contract Presale is Ownable {
   // No. of beneficiaries
   uint256 public noOfBeneficiaries;
 
-  // Whether the contract has been bootstrapped with the WOTB
+  // Whether the contract has been bootstrapped with the wBAI
   bool public bootstrapped;
 
   // Start time of the the vesting
@@ -274,7 +274,6 @@ contract Presale is Ownable {
       totalBalance.sub(imidiateBalance).mul(block.timestamp.sub(startTime)).div(duration).add(imidiateBalance);
     }
   }
-
 
 
   /*---- EVENTS ----*/
